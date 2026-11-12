@@ -1,4 +1,4 @@
-# MAYBE PEDAL
+# MAYBE SOUND
 
 Working brand name (may change). Product site for **Usual Time** — mono delay, Loop/Sample memory, and DIRECT effects for Daisy Terrarium.
 

@@ -1,4 +1,4 @@
-// MAYBE PEDAL — effect switcher + footer year.
+// MAYBE SOUND — effect switcher + footer year.
 (function () {
   "use strict";
   var year = document.getElementById("year");
