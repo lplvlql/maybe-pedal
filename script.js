@@ -1,4 +1,4 @@
-// MAYBE LATER — rotating pedals backdrop, effect switcher, footer year.
+// USUAL TIME — rotating pedals backdrop, effect switcher, footer year.
 (function () {
   "use strict";
 
@@ -87,7 +87,8 @@
     // Random but well distributed: the screen is a 3x3 grid,
     // seven of its cells are picked at random each load, and each
     // pedal lands at a random spot inside its own cell. Rotations,
-    // spin and drift are fully random.
+    // spin is fully random. They stay where they start:
+    // rotation and interaction only, no travelling.
     var cells = [];
     for (var gy = 0; gy < 3; gy++) for (var gx = 0; gx < 3; gx++) cells.push([gx, gy]);
     for (var ci = cells.length - 1; ci > 0; ci--) {
@@ -101,8 +102,6 @@
         y: (cells[i][1] + 0.2 + Math.random() * 0.6) / 3,
         rx: Math.random() * Math.PI * 2, ry: Math.random() * Math.PI * 2, rz: Math.random() * Math.PI * 2,
         sx: (Math.random() - 0.5) * 0.22, sy: (Math.random() - 0.5) * 0.18, sz: (Math.random() - 0.5) * 0.14,
-        vx: (Math.random() - 0.5) * 0.00005, vy: (Math.random() - 0.5) * 0.00004,
-        bob: Math.random() * 6.28
       });
     }
 
@@ -118,7 +117,7 @@
     function project(t) {
       var n = 0;
       pedals.forEach(function (c) {
-        var cxp = c.x * W, cyp = c.y * H + Math.sin(t / 2600 + c.bob) * 9;
+        var cxp = c.x * W, cyp = c.y * H;
         var ax = c.rx + t / 1000 * c.sx, ay = c.ry + t / 1000 * c.sy, az = c.rz + t / 1000 * c.sz;
         var cax = Math.cos(ax), sax = Math.sin(ax), cay = Math.cos(ay), say = Math.sin(ay), caz = Math.cos(az), saz = Math.sin(az);
         for (var i = 0; i < pts.length; i++, n++) {
@@ -238,14 +237,6 @@
       lastFrame = now;
       var adt = reduceMotion ? 0 : dt;
       animNow += adt;
-      if (!reduceMotion) {
-        var step = Math.min(3, adt / 16.7);
-        pedals.forEach(function (c) {
-          c.x += c.vx * step; c.y += c.vy * step;
-          if (c.x < -0.08) c.x = 1.08; if (c.x > 1.08) c.x = -0.08;
-          if (c.y < -0.1) c.y = 1.1; if (c.y > 1.1) c.y = -0.1;
-        });
-      }
       project(animNow);
       stepElastic(adt);
       draw();
