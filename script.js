@@ -24,7 +24,9 @@
     var rng = mulberry(42);
     function resize() {
       var dpr = Math.min(2, window.devicePixelRatio || 1);
-      W = window.innerWidth; H = window.innerHeight;
+      var w = window.innerWidth, h = window.innerHeight;
+      if (W && Math.abs(w - W) < 2 && Math.abs(h - H) < 2) return; // ignore URL-bar wobble
+      W = w; H = h;
       canvas.width = Math.round(W * dpr);
       canvas.height = Math.round(H * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
